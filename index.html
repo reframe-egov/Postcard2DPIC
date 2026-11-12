@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Postcards from 2035</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#E7EEF6; --card:#FCFCFA; --ink:#17264A; --muted:#4C5A74; --line:#C7D3E2;
+  --stamp:#B64E16; --stamp-soft:#FBE6D8; --teal:#1D6A64; --teal-soft:#DDEFEC;
+  --focus:#1D6A64; --shadow:0 1px 0 #C7D3E2, 0 18px 40px -24px rgba(23,38,74,.35);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sky:#0E192C; --card:#16233B; --ink:#E5ECF6; --muted:#A6B4CA; --line:#2B3B58;
+    --stamp:#F2915A; --stamp-soft:#3A2618; --teal:#6CC2B8; --teal-soft:#16352F;
+    --focus:#6CC2B8; --shadow:0 1px 0 #2B3B58, 0 18px 40px -24px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --sky:#0E192C; --card:#16233B; --ink:#E5ECF6; --muted:#A6B4CA; --line:#2B3B58;
+  --stamp:#F2915A; --stamp-soft:#3A2618; --teal:#6CC2B8; --teal-soft:#16352F;
+  --focus:#6CC2B8; --shadow:0 1px 0 #2B3B58, 0 18px 40px -24px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:18px;line-height:1.55}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.15;margin:0}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.brand{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:20px}
+.slots{display:flex;gap:6px;flex-wrap:wrap}
+.slot{width:30px;height:36px;border:2px dashed var(--line);border-radius:4px;display:grid;place-items:center;font-size:17px}
+.slot.on{border:2px solid var(--stamp);background:var(--stamp-soft)}
+.slot.pop{animation:pop .45s ease-out}
+@keyframes pop{0%{transform:scale(1.6) rotate(-14deg);opacity:0}70%{transform:scale(.95) rotate(3deg);opacity:1}100%{transform:none}}
+.card{position:relative;background:var(--card);border-radius:6px;box-shadow:var(--shadow);padding:30px 30px 26px;overflow:hidden}
+.card::after{content:"";position:absolute;inset:auto 0 0 0;height:6px;background:repeating-linear-gradient(90deg,var(--stamp) 0 18px,transparent 18px 26px,var(--teal) 26px 44px,transparent 44px 52px);opacity:.85}
+.corner{float:right;margin:0 0 12px 18px;width:118px;text-align:center}
+.corner .postage{width:84px;height:100px;margin:0 auto;border:3px dotted var(--stamp);border-radius:3px;display:grid;place-items:center;font-size:40px;background:var(--stamp-soft)}
+.corner svg{display:block;margin:-34px 0 0 28px;width:92px;height:92px;color:var(--teal)}
+.corner .addr{margin-top:6px;font-size:14px;color:var(--muted);line-height:1.35}
+.kicker{color:var(--muted);font-size:16px;margin:0 0 8px}
+.q{font-size:clamp(24px,4.2vw,32px);font-weight:700;margin:0 0 10px;max-width:24ch}
+.note{color:var(--muted);margin:0 0 18px;max-width:60ch}
+textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px solid var(--line);padding:10px 2px;outline:none}
+textarea{min-height:120px;resize:vertical;background-image:repeating-linear-gradient(transparent 0 33px,var(--line) 33px 34px);background-attachment:local;line-height:34px;border-bottom:0}
+textarea:focus,input[type=text]:focus{border-color:var(--focus)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin:6px 0 16px;clear:both}
+.grid.small{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;border:2px solid var(--line);border-radius:6px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:6px;min-height:64px}
+.opt:hover{border-color:var(--teal)}
+.opt[aria-pressed="true"]{border-color:var(--stamp);background:var(--stamp-soft)}
+.opt .em{font-size:28px;line-height:1}
+.opt b{font-size:17px}
+.opt span{font-size:15px;color:var(--muted);line-height:1.35}
+.ph,.pic{width:100%;aspect-ratio:4/3;border-radius:4px;object-fit:cover;display:block}
+.ph{display:grid;place-items:center;text-align:center;padding:10px;border:2px dashed var(--line);color:var(--muted);font-size:14px;background:var(--sky)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px;clear:both}
+.chip{all:unset;cursor:pointer;border:2px solid var(--line);border-radius:999px;padding:8px 14px;font-size:16px;background:var(--card)}
+.chip[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft)}
+.bubble{position:relative;border:2px solid var(--line);border-radius:18px;padding:6px 16px;margin-top:6px}
+.bubble::before{content:"";position:absolute;left:28px;top:-11px;width:18px;height:18px;background:var(--card);border-left:2px solid var(--line);border-top:2px solid var(--line);transform:rotate(45deg)}
+.madlib{font-size:clamp(20px,3.4vw,25px);line-height:2.2;clear:both}
+.madlib input{width:auto;min-width:9ch;display:inline-block;font-size:inherit;padding:0 4px;text-align:center}
+.sub{font-weight:700;font-size:17px;margin:14px 0 4px;clear:both}
+.actions{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:22px;flex-wrap:wrap;clear:both}
+.actions .right{display:flex;gap:10px;flex-wrap:wrap}
+button.btn,a.btn{font:inherit;font-weight:700;border-radius:999px;padding:11px 22px;cursor:pointer;border:2px solid transparent;text-decoration:none;display:inline-block}
+.primary{background:var(--ink);color:var(--card)}
+.ghost{background:transparent;color:var(--ink);border-color:var(--line)!important}
+.link{all:unset;cursor:pointer;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:16px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.stamps{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 18px}
+.stampbtn{all:unset;cursor:pointer;width:64px;height:76px;border:3px dotted var(--line);border-radius:3px;display:grid;place-items:center;font-size:30px;background:var(--card)}
+.stampbtn[aria-pressed="true"]{border-color:var(--stamp);background:var(--stamp-soft)}
+.status{font-size:16px;color:var(--muted);margin-top:12px}
+.status.ok{color:var(--teal)}
+.out{width:100%;min-height:220px;font:15px/1.5 "Atkinson Hyperlegible",system-ui,sans-serif;background:var(--sky);border:1px solid var(--line);border-radius:6px;padding:12px;color:var(--ink);line-height:1.5;background-image:none}
+.resp{border-top:1px solid var(--line);padding:16px 0}
+.resp pre{white-space:pre-wrap;font:15px/1.5 "Atkinson Hyperlegible",system-ui,sans-serif;margin:8px 0 0}
+.tip{font-size:15px;color:var(--muted);margin-top:10px}
+.topright{display:flex;align-items:center;gap:12px}
+.keybtn{all:unset;cursor:pointer;font-size:18px;opacity:.45;padding:4px;border-radius:6px}
+.keybtn:hover,.keybtn:focus-visible{opacity:1}
+.err{color:var(--stamp);font-size:16px;margin-top:10px}
+table.sum{border-collapse:collapse;font-size:15px;width:100%}
+@media (max-width:560px){
+  .card{padding:22px 18px 22px}
+  .corner{width:78px;margin-left:10px}
+  .corner .postage{width:60px;height:72px;font-size:28px}
+  .corner svg{width:64px;height:64px;margin:-24px 0 0 18px}
+  .corner .addr{display:none}
+  .slot{width:24px;height:30px;font-size:14px}
+}
+@media (prefers-reduced-motion: reduce){.slot.pop{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Postcards from 2035</div>
+    <div class="topright">
+      <div class="slots" id="slots" aria-label="Postcards stamped"></div>
+      <button class="keybtn" id="keybtn" type="button" aria-label="Facilitator view" title="Facilitator view">🔑</button>
+    </div>
+  </header>
+  <main id="app" aria-live="polite"></main>
+</div>
+<script>
+/* ===== Setup =====
+   1. Paste your Google Apps Script web app URL below (see README).
+   2. Put images in the images/ folder, named as listed in the README
+      (e.g. images/scene-a.png). Missing images show a placeholder or emoji. */
+const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+const IMAGE_EXT = "png";
+
+const STAMPS = [
+  {e:"🧭",n:"Compass"},{e:"🛰️",n:"Satellite"},{e:"🌱",n:"Seedling"},
+  {e:"🔭",n:"Telescope"},{e:"🪁",n:"Kite"},{e:"🐘",n:"Elephant"}
+];
+const SCENES = [
+  {k:"scene-a",b:"Picture A"},{k:"scene-b",b:"Picture B"},
+  {k:"scene-c",b:"Picture C"},{k:"scene-d",b:"Picture D"}
+];
+const PERSONAS = [
+  {k:"steward",e:"🗝️",b:"The Steward",d:"Keeps shared things running and trustworthy"},
+  {k:"bridge",e:"🌉",b:"The Bridge-builder",d:"Connects people who don’t usually talk"},
+  {k:"sage",e:"📚",b:"The Sage",d:"Knows, explains and teaches"},
+  {k:"catalyst",e:"⚡",b:"The Catalyst",d:"Gets things started, then steps back"},
+  {k:"explorer",e:"🧗",b:"The Explorer",d:"Goes where nobody has gone yet"},
+  {k:"guardian",e:"🛡️",b:"The Guardian",d:"Protects the public interest"},
+  {k:"host",e:"🫖",b:"The Host",d:"Brings everyone to one table"},
+  {k:"champion",e:"📣",b:"The Champion",d:"Speaks up loudly for a cause"}
+];
+const METAPHORS = [
+  {k:"airport",e:"✈️",b:"An airport hub",d:"Everything passes through; nobody stays"},
+  {k:"library",e:"🏛️",b:"A public library",d:"Holds knowledge for everyone"},
+  {k:"guild",e:"🛠️",b:"A craft guild",d:"Sets the standard and trains the makers"},
+  {k:"lighthouse",e:"🗼",b:"A lighthouse",d:"Shows the way, stays out of the boat"},
+  {k:"kitchen",e:"🍲",b:"A shared kitchen",d:"Many cooks, one pot"},
+  {k:"embassy",e:"🏳️",b:"An embassy",d:"Speaks for its people abroad"},
+  {k:"seedbank",e:"🌾",b:"A seed bank",d:"Keeps what matters safe for later"}
+];
+const SPEAKERS = ["A minister","A funder","A DPG leader","A citizen","A researcher","A system integrator"];
+const NOTICERS = ["Governments","Funders","DPGs","Citizens","Universities","Integrators","Honestly, hardly anyone"];
+const CORE = ["picture","unsolved","persona","metaphor","overheard","vanish","only"];
+const DEEPER = [
+  {id:"shift",q:"What shift in the DPI world do you think most people are underestimating?",ph:"The thing you see coming that others don’t."},
+  {id:"build",q:"If DPI Centre didn’t exist and you were starting something today to meet that need, what would you build?",note:"Ignore today’s contracts, staff and funding.",ph:"Sketch it in a few lines."},
+  {id:"hardest",q:"What’s the hardest part of making DPI work in your context?",ph:"Whatever gets in the way most."},
+  {id:"wish",q:"What do you wish existed that doesn’t?",ph:"A tool, a body, a habit, a rule…"}
+];
+const FIELDS = ["name","stamp","picture","pictureWhy","unsolved","personaNow","persona2035","metaphor","metaphorWhy",
+  "overheardWho","overheard","vanishWho","vanishLoss","only1","only2","only3","shift","build","hardest","wish"];
+
+const KEY = "dpic-postcards-v2";
+const backendReady = /^https:\/\/script\.google\.com\//.test(SCRIPT_URL);
+let S = {step:"intro", rid:null, name:"", stamp:null, deeper:false, picture:null, pictureWhy:"", unsolved:"",
+  personaNow:null, persona2035:null, metaphor:null, metaphorWhy:"", overheardWho:null, overheard:"",
+  vanishWho:[], vanishLoss:"", only1:"", only2:"", only3:"", shift:"", build:"", hardest:"", wish:"", posted:false};
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if(saved) S = Object.assign(S, saved); }catch(e){}
+if(!S.rid) S.rid = "r-" + Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+if(S.step==="facilitator") S.step="intro";
+
+let justStamped=-1, sendState="idle", facKey="", facRows=null, facState="idle";
+
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if(attrs) for(const [k,v] of Object.entries(attrs)){
+    if(v===null || v===undefined || v===false) continue;
+    if(k==="class") el.className=v;
+    else if(k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v===true ? "" : v);
+  }
+  for(const kid of kids.flat()){ if(kid===null||kid===undefined||kid===false) continue; el.append(kid.nodeType ? kid : document.createTextNode(String(kid))); }
+  return el;
+}
+function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function stampOf(){ return STAMPS.find(s=>s.e===S.stamp) || null; }
+function steps(){ return ["intro", ...CORE, "gate", ...(S.deeper ? DEEPER.map(d=>d.id) : []), "send"]; }
+function go(delta){
+  const list = steps(); const i = list.indexOf(S.step);
+  if(delta>0 && CORE.indexOf(S.step)>=0) justStamped = CORE.indexOf(S.step);
+  S.step = list[Math.max(0, Math.min(list.length-1, i+delta))];
+  persist(); if(delta>0) queueSave(); render(); window.scrollTo({top:0});
+}
+function answered(id){
+  switch(id){
+    case "picture": return !!S.picture;
+    case "unsolved": return !!S.unsolved.trim();
+    case "persona": return !!(S.personaNow || S.persona2035);
+    case "metaphor": return !!S.metaphor;
+    case "overheard": return !!S.overheard.trim();
+    case "vanish": return S.vanishWho.length>0 || !!S.vanishLoss.trim();
+    case "only": return !!(S.only1||S.only2||S.only3).trim();
+  } return false;
+}
+function renderSlots(){
+  const box = document.getElementById("slots"); box.textContent="";
+  if(S.step==="facilitator") return;
+  const st = stampOf();
+  CORE.forEach((id,i)=>{
+    const on = answered(id);
+    box.append(h("span",{class:"slot"+(on?" on":"")+(on&&i===justStamped?" pop":""),"aria-label":(on?"Stamped: ":"Not yet: ")+"postcard "+(i+1)}, on ? (st?st.e:"✓") : ""));
+  });
+  justStamped=-1;
+}
+function corner(){
+  const st = stampOf();
+  return h("div",{class:"corner","aria-hidden":"true"},
+    h("div",{class:"postage"}, st ? st.e : "✉️"), postmark(),
+    h("div",{class:"addr"},"To: DPI Centre", h("br"), "The year 2035"));
+}
+function postmark(){
+  const ns="http://www.w3.org/2000/svg";
+  const svg=document.createElementNS(ns,"svg"); svg.setAttribute("viewBox","0 0 100 100");
+  svg.innerHTML='<defs><path id="pm" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs>'+
+    '<circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="2.5"/>'+
+    '<circle cx="50" cy="50" r="24" fill="none" stroke="currentColor" stroke-width="1.5"/>'+
+    '<text font-size="11" font-family="Bricolage Grotesque, sans-serif" fill="currentColor" letter-spacing="2"><textPath href="#pm">DPI CENTRE   BENGALURU   </textPath></text>'+
+    '<text x="50" y="56" text-anchor="middle" font-size="17" font-weight="700" font-family="Bricolage Grotesque, sans-serif" fill="currentColor">2035</text>';
+  return svg;
+}
+function imgPath(k){ return "images/" + k + "." + IMAGE_EXT; }
+/* Scene tiles: image, or a placeholder if the file isn't there yet. */
+function scenePic(k, alt){
+  const img = h("img",{class:"pic",src:imgPath(k),alt:alt,loading:"lazy"});
+  img.addEventListener("error", ()=>img.replaceWith(h("div",{class:"ph","aria-hidden":"true"},"Image to come")));
+  return img;
+}
+/* Persona and metaphor tiles: image if present, otherwise the emoji stays. */
+function optionalPic(k, alt, emojiEl){
+  const img = h("img",{class:"pic",src:imgPath(k),alt:alt,loading:"lazy",style:"display:none"});
+  img.addEventListener("load", ()=>{ img.style.display="block"; if(emojiEl) emojiEl.remove(); });
+  img.addEventListener("error", ()=>img.remove());
+  return img;
+}
+function textField(field, placeholder, label, rows){
+  return h("textarea",{"aria-label":label, placeholder:placeholder, rows:rows||4,
+    oninput:e=>{S[field]=e.target.value; persist(); renderSlots();}}, S[field]);
+}
+function optCard(item, selected, onPick, mode){
+  const em = item.e ? h("div",{class:"em","aria-hidden":"true"},item.e) : null;
+  return h("button",{class:"opt",type:"button","aria-pressed":selected?"true":"false",onclick:onPick},
+    mode==="scene" ? scenePic(item.k, item.b) : mode==="optional" ? optionalPic(item.k, item.b, em) : null,
+    em, h("b",null,item.b), item.d ? h("span",null,item.d) : null);
+}
+function chip(label, selected, onPick){
+  return h("button",{class:"chip",type:"button","aria-pressed":selected?"true":"false",onclick:onPick},label);
+}
+function actions(opts){
+  opts = opts || {};
+  return h("div",{class:"actions"},
+    h("button",{class:"link",type:"button",onclick:()=>go(-1)},"Back"),
+    h("div",{class:"right"},
+      h("button",{class:"btn ghost",type:"button",onclick:()=>go(1)},"Skip"),
+      h("button",{class:"btn primary",type:"button",onclick:()=>go(1)}, opts.next || "Stamp it")));
+}
+function cardShell(n, q, note, ...body){
+  return h("section",{class:"card"}, corner(),
+    n ? h("p",{class:"kicker"},n) : null, h("h2",{class:"q"},q),
+    note ? h("p",{class:"note"},note) : null, ...body);
+}
+
+const VIEWS = {
+  intro(){
+    return h("section",{class:"card"}, corner(),
+      h("h1",{class:"q",style:"max-width:18ch"},"Send a few postcards from 2035"),
+      h("p",{class:"note"},"Before we meet, we’d love your picture of where DPI is heading and what DPI Centre could become. Mostly taps, about five minutes. Skip anything you like."),
+      h("p",{class:"note"},"Only the facilitation team reads your answers. We remove names before anything goes on the wall."),
+      h("p",{class:"sub"},"Pick your stamp"),
+      h("p",{class:"note",style:"margin:0"},"It becomes your pen name on the day."),
+      h("div",{class:"stamps",role:"group","aria-label":"Pick your stamp"},
+        STAMPS.map(s=>h("button",{class:"stampbtn",type:"button","aria-pressed":S.stamp===s.e?"true":"false","aria-label":s.n,title:s.n,
+          onclick:()=>{S.stamp=s.e; persist(); render();}}, s.e))),
+      h("label",{class:"sub",for:"nm"},"Your name"),
+      h("input",{type:"text",id:"nm",placeholder:"So we know who to thank (optional)",value:S.name,autocomplete:"name",
+        oninput:e=>{S.name=e.target.value; persist();}}),
+      h("div",{class:"actions"}, h("span"), h("button",{class:"btn primary",type:"button",onclick:()=>go(1)},"Start writing")),
+      h("p",{class:"tip"},"On a phone, the microphone on your keyboard lets you speak instead of type."));
+  },
+  picture(){
+    return cardShell("Postcard 1 of 7","Which picture feels most like DPI in 2035?","Go with your gut. There’s no right answer.",
+      h("div",{class:"grid",role:"group"}, SCENES.map(s=>optCard(s, S.picture===s.k, ()=>{S.picture=s.k; persist(); render();}, "scene"))),
+      h("p",{class:"sub"},"What made you pick it?"),
+      textField("pictureWhy","One line is plenty.","What made you pick it",2), actions());
+  },
+  unsolved(){
+    return cardShell("Postcard 2 of 7","It’s 2035 and DPI is everywhere. What important problem is still unsolved, and who is living with it?",null,
+      textField("unsolved","A few lines is plenty.","Unsolved problem in 2035",5), actions());
+  },
+  persona(){
+    return cardShell("Postcard 3 of 7","If DPI Centre walked into a room, who would it be?","Pick one for today and one for 2035. They can be the same.",
+      h("p",{class:"sub"},"Today, it feels like…"),
+      h("div",{class:"grid small",role:"group","aria-label":"Today"},
+        PERSONAS.map(p=>optCard(p, S.personaNow===p.k, ()=>{S.personaNow=p.k; persist(); render();}, "optional")),
+        optCard({k:"unsure",e:"🤷",b:"Not sure yet",d:"I don’t know it well enough"}, S.personaNow==="unsure", ()=>{S.personaNow="unsure"; persist(); render();})),
+      h("p",{class:"sub"},"In 2035, it should be…"),
+      h("div",{class:"grid small",role:"group","aria-label":"In 2035"},
+        PERSONAS.map(p=>optCard(p, S.persona2035===p.k, ()=>{S.persona2035=p.k; persist(); render();}, "optional"))),
+      actions());
+  },
+  metaphor(){
+    return cardShell("Postcard 4 of 7","In 2035, DPI Centre is a bit like…",null,
+      h("div",{class:"grid small",role:"group"},
+        METAPHORS.map(m=>optCard(m, S.metaphor===m.k, ()=>{S.metaphor=m.k; persist(); render();}, "optional")),
+        optCard({k:"other",e:"✏️",b:"Something else",d:"Tell us below"}, S.metaphor==="other", ()=>{S.metaphor="other"; persist(); render();})),
+      h("p",{class:"sub"},"Why that one?"),
+      textField("metaphorWhy","One line is plenty.","Why that one",2), actions());
+  },
+  overheard(){
+    return cardShell("Postcard 5 of 7","Overheard in 2035","Someone is talking about DPI Centre. Who is it, and what do they say?",
+      h("div",{class:"chips",role:"group","aria-label":"Who is speaking"},
+        SPEAKERS.map(s=>chip(s, S.overheardWho===s, ()=>{S.overheardWho=s; persist(); render();}))),
+      h("div",{class:"bubble"}, textField("overheard","“Honestly, without DPI Centre we’d never have…”","What they say",3)),
+      actions());
+  },
+  vanish(){
+    return cardShell("Postcard 6 of 7","DPI Centre disappears tomorrow. Who notices first?","Pick any that apply. An honest answer helps us most.",
+      h("div",{class:"chips",role:"group"},
+        NOTICERS.map(n=>chip(n, S.vanishWho.includes(n), ()=>{
+          S.vanishWho = S.vanishWho.includes(n) ? S.vanishWho.filter(x=>x!==n) : [...S.vanishWho, n]; persist(); render();}))),
+      h("p",{class:"sub"},"What would they lose?"),
+      textField("vanishLoss","And what should they lose, if anything?","What they would lose",3), actions());
+  },
+  only(){
+    const inp=(f,ph,lab)=>h("input",{type:"text",placeholder:ph,"aria-label":lab,value:S[f],size:Math.max(12,(S[f]||ph).length),
+      oninput:e=>{S[f]=e.target.value; e.target.size=Math.max(12,(e.target.value||ph).length); persist(); renderSlots();}});
+    return cardShell("Postcard 7 of 7","Finish the sentence","Rough is fine. We’re after the idea, not the wording.",
+      h("p",{class:"madlib"},"In 2035, DPI Centre is the only ",
+        inp("only1","kind of organisation","Kind of organisation"), " that ",
+        inp("only2","does what","Does what"), " for ", inp("only3","whom","For whom"), "."),
+      actions({next:"Stamp the last one"}));
+  },
+  gate(){
+    return h("section",{class:"card"}, corner(),
+      h("h2",{class:"q"},"That’s the quick part done"),
+      h("p",{class:"note"},"Got four more minutes? Four short written questions help us most when we build the material for the day."),
+      h("div",{class:"actions"},
+        h("button",{class:"link",type:"button",onclick:()=>go(-1)},"Back"),
+        h("div",{class:"right"},
+          h("button",{class:"btn ghost",type:"button",onclick:()=>{S.deeper=false; S.step="send"; persist(); render();}},"Post what I have"),
+          h("button",{class:"btn primary",type:"button",onclick:()=>{S.deeper=true; persist(); go(1);}},"Go deeper"))));
+  },
+  send(){
+    const text = exportText(S);
+    const kids = [corner()];
+    if(S.posted && sendState!=="failed"){
+      kids.push(h("h2",{class:"q"},"Posted. Thank you!"),
+        h("p",{class:"note"},"Your postcards have reached the facilitation team. See you on the day, " + (stampOf() ? "Anonymous " + stampOf().n : "friend") + "."),
+        h("p",{class:"note"},"Thought of something else? Go back, change any answer and post again. We’ll keep your latest version."),
+        h("div",{class:"actions"}, h("button",{class:"link",type:"button",onclick:()=>{S.posted=false; persist(); go(-1);}},"Back to edit"), h("span")));
+      return h("section",{class:"card"}, ...kids);
+    }
+    kids.push(h("h2",{class:"q"},"Ready to post"),
+      h("p",{class:"note"},"Here’s everything you wrote. Check it over, then post it to the facilitation team."));
+    if(backendReady){
+      kids.push(h("div",{style:"margin:6px 0 16px"},
+        h("button",{class:"btn primary",type:"button",disabled:sendState==="sending",onclick:postNow}, sendState==="sending" ? "Posting…" : "Post my postcards")));
+    }
+    if(!backendReady || sendState==="failed"){
+      const area = h("textarea",{class:"out",readonly:true,"aria-label":"Your answers"}, text);
+      kids.push(
+        sendState==="failed" ? h("p",{class:"err"},"Posting didn’t go through. Try again, or send your answers to Karthik with one of these:") : null,
+        h("div",{style:"display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 16px"},
+          h("a",{class:"btn ghost",href:"https://wa.me/?text="+encodeURIComponent(text),target:"_blank",rel:"noopener"},"Send on WhatsApp"),
+          h("a",{class:"btn ghost",href:"mailto:?subject="+encodeURIComponent("Postcards from 2035")+"&body="+encodeURIComponent(text)},"Send by email"),
+          h("button",{class:"btn ghost",type:"button",onclick:e=>copyText(text, area, e.target)},"Copy my answers")),
+        area);
+    } else {
+      kids.push(h("pre",{class:"out",style:"white-space:pre-wrap;margin:0"}, text));
+    }
+    kids.push(h("div",{class:"actions"}, h("button",{class:"link",type:"button",onclick:()=>go(-1)},"Back to edit"), h("span")));
+    return h("section",{class:"card"}, ...kids);
+  },
+  facilitator(){
+    const kids = [h("h2",{class:"q"},"Facilitator view")];
+    if(!backendReady){
+      kids.push(h("p",{class:"note"},"Connect the Google Sheet first: paste the web app URL into SCRIPT_URL at the top of the page script."));
+    } else if(!facRows){
+      const pw = h("input",{type:"password",id:"pw",autocomplete:"current-password","aria-label":"Password",placeholder:"Password",
+        style:"width:100%;font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px solid var(--line);padding:10px 2px",
+        onkeydown:e=>{ if(e.key==="Enter") openFac(pw.value); }});
+      kids.push(h("p",{class:"note"},"Enter the password to see everyone’s postcards."), pw,
+        facState==="wrong" ? h("p",{class:"err"},"That password isn’t right. Check it and try again.") : null,
+        facState==="error" ? h("p",{class:"err"},"Couldn’t reach the sheet. Check your connection and try again.") : null,
+        h("div",{class:"actions"}, h("span"),
+          h("button",{class:"btn primary",type:"button",disabled:facState==="loading",onclick:()=>openFac(pw.value)}, facState==="loading" ? "Opening…" : "Open")));
+      setTimeout(()=>pw.focus(), 50);
+    } else {
+      const all = facRows.map(r=>exportText(r));
+      kids.push(h("p",{class:"note"}, facRows.length ? facRows.length + (facRows.length===1?" response so far.":" responses so far.") : "No responses yet."),
+        facRows.length ? h("div",{style:"display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px"},
+          h("button",{class:"btn ghost",type:"button",onclick:e=>copyText(all.join("\n\n-----\n\n"), null, e.target)},"Copy all"),
+          h("button",{class:"btn ghost",type:"button",onclick:downloadCsv},"Download CSV"),
+          h("button",{class:"btn ghost",type:"button",onclick:()=>openFac(facKey)},"Refresh")) : null,
+        ...all.map(t=>h("div",{class:"resp"}, h("pre",null,t))));
+    }
+    kids.push(h("div",{class:"actions"},
+      h("button",{class:"link",type:"button",onclick:()=>{S.step=S._back||"intro"; facRows=null; facKey=""; facState="idle"; render();}},"Close"), h("span")));
+    return h("section",{class:"card"}, ...kids);
+  }
+};
+DEEPER.forEach((d,i)=>{
+  VIEWS[d.id] = ()=>cardShell("Going deeper, "+(i+1)+" of 4", d.q, d.note||null, textField(d.id, d.ph, d.q, 4), actions());
+});
+
+function label(list, k){ const f=list.find(x=>x.k===k); return f ? f.b : (k==="unsure"?"Not sure yet":k==="other"?"Something else":""); }
+function exportText(R){
+  const st = STAMPS.find(s=>s.e===R.stamp); const L=[];
+  const who = Array.isArray(R.vanishWho) ? R.vanishWho.join(", ") : (R.vanishWho||"");
+  L.push("Postcards from 2035" + (R.name ? " from "+R.name : "") + (st ? " (stamp: "+st.n+")" : ""));
+  const add=(t,v)=>{ if(v && String(v).trim()) L.push("", t, String(v).trim()); };
+  add("1. Picture of DPI in 2035", [label(SCENES,R.picture), R.pictureWhy].filter(Boolean).join(": "));
+  add("2. Still unsolved in 2035, and who lives with it", R.unsolved);
+  add("3. DPI Centre as a persona", [R.personaNow?"Today: "+label(PERSONAS,R.personaNow):"", R.persona2035?"2035: "+label(PERSONAS,R.persona2035):""].filter(Boolean).join("\n"));
+  add("4. DPI Centre is a bit like", [label(METAPHORS,R.metaphor), R.metaphorWhy].filter(Boolean).join(": "));
+  add("5. Overheard in 2035", [R.overheardWho, R.overheard].filter(Boolean).join(": "));
+  add("6. If it disappeared, who notices", [who, R.vanishLoss].filter(Boolean).join("\nThey’d lose: "));
+  if(R.only1||R.only2||R.only3) add("7. Finish the sentence", "In 2035, DPI Centre is the only "+(R.only1||"___")+" that "+(R.only2||"___")+" for "+(R.only3||"___")+".");
+  add("Underestimated shift", R.shift);
+  add("What I’d build", R.build);
+  add("Hardest part of making DPI work", R.hardest);
+  add("What I wish existed", R.wish);
+  return L.join("\n");
+}
+async function copyText(text, area, btn){
+  try{ await navigator.clipboard.writeText(text); btn.textContent="Copied"; }
+  catch(e){ if(area){ area.focus(); area.select(); btn.textContent="Selected: press copy"; } else btn.textContent="Copy failed"; }
+}
+
+/* ---- Talking to the Google Sheet ---- */
+async function call(payload){
+  const res = await fetch(SCRIPT_URL, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload), redirect:"follow"});
+  return res.json();
+}
+function payload(){
+  const data = {}; FIELDS.forEach(f=>data[f]=S[f]);
+  return {action:"save", id:S.rid, data:data};
+}
+let saveTimer=null;
+function queueSave(){ if(!backendReady) return; clearTimeout(saveTimer); saveTimer=setTimeout(()=>{ call(payload()).catch(()=>{}); }, 800); }
+async function postNow(){
+  sendState="sending"; render();
+  try{
+    const r = await call(payload());
+    if(r && r.ok){ S.posted=true; sendState="done"; persist(); }
+    else sendState="failed";
+  }catch(e){ sendState="failed"; }
+  render();
+}
+async function openFac(pw){
+  if(!pw) return;
+  facState="loading"; render();
+  try{
+    const r = await call({action:"list", key:pw});
+    if(r && r.ok){ facKey=pw; facRows=r.rows||[]; facState="idle"; }
+    else facState = (r && r.error==="wrong_password") ? "wrong" : "error";
+  }catch(e){ facState="error"; }
+  render();
+}
+function downloadCsv(){
+  const cols = ["updatedAt", ...FIELDS];
+  const esc = v=>{ v = Array.isArray(v) ? v.join("; ") : (v==null ? "" : String(v)); return '"' + v.replace(/"/g,'""') + '"'; };
+  const csv = [cols.join(","), ...facRows.map(r=>cols.map(c=>esc(r[c])).join(","))].join("\r\n");
+  const a = h("a",{href:URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"})),download:"postcards-2035.csv"});
+  document.body.append(a); a.click(); a.remove();
+}
+
+function render(){
+  renderSlots();
+  const app=document.getElementById("app"); app.textContent="";
+  app.append((VIEWS[S.step] || VIEWS.intro)());
+}
+document.getElementById("keybtn").addEventListener("click", ()=>{
+  if(S.step!=="facilitator"){ S._back=S.step; S.step="facilitator"; render(); window.scrollTo({top:0}); }
+});
+render();
+</script>
+</body>
+</html>
